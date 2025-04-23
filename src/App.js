@@ -11,6 +11,7 @@ import CompB from "./components/CompB";
 import CompC from "./components/CompC";
 
 import React, { useReducer } from "react";
+import Memo from "./components/Memo";
 
 const initialState = 0;
 const reducer = (currentState, action) => {
@@ -40,8 +41,9 @@ function App() {
           {/* <ApiFetch />
           <B /> */}
           {/* <SampleReducer /> */}
-          Count {count}
-          <CompB />
+          {/* Count {count}
+          <CompB /> */}
+          <Memo />
         </header>
       </div>
     </AppContext.Provider>
