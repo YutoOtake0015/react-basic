@@ -14,6 +14,7 @@ import React, { useState, useReducer, useCallback } from "react";
 import Memo from "./components/Memo";
 import CountDisplay from "./components/CountDisplay";
 import CountClick from "./components/CountClick";
+import DrfApiFetch from "./components/DrfApiFetch";
 
 const initialState = 0;
 const reducer = (currentState, action) => {
@@ -56,10 +57,11 @@ function App() {
           {/* Count {count}
           <CompB /> */}
           {/* <Memo /> */}
-          <CountDisplay name="count1" count={count1} />
+          {/* <CountDisplay name="count1" count={count1} />
           <CountClick handleClick={AddCount1}>AddCount1</CountClick>
           <CountDisplay name="count1" count={count2} />
-          <CountClick handleClick={AddCount2}>AddCount2</CountClick>
+          <CountClick handleClick={AddCount2}>AddCount2</CountClick> */}
+          <DrfApiFetch />
         </header>
       </div>
     </AppContext.Provider>
