@@ -3,6 +3,9 @@ import axios from "axios";
 
 const DrfApiFetch = () => {
   const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState([]);
+  const [id, setId] = useState(1);
+
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/tasks/", {
@@ -15,6 +18,26 @@ const DrfApiFetch = () => {
       });
   }, []);
 
+  const getTask = () => {
+    axios
+      .get(`http://127.0.0.1:8000/api/tasks/${id}/`, {
+        headers: {
+          Authorization: "Token dc149fe76d0b9e793efc783e0ae463de760a59ab",
+        },
+      })
+      .then((res) => console.log(res));
+  };
+
+  const deleteTask = () => {
+    axios
+      .delete(`http://127.0.0.1:8000/api/tasks/${id}/`, {
+        headers: {
+          Authorization: "Token dc149fe76d0b9e793efc783e0ae463de760a59ab",
+        },
+      })
+      .then((res) => console.log(res));
+  };
+
   return (
     <div>
       <ul>
@@ -24,6 +47,23 @@ const DrfApiFetch = () => {
           </li>
         ))}
       </ul>
+      Set id
+      <br />
+      <input
+        type="text"
+        value={id}
+        onChange={(evt) => setId(evt.target.value)}
+      />
+      <br />
+      <button type="button" onClick={() => getTask()}>
+        Get task
+      </button>
+      <button type="button" onClick={() => deleteTask()}>
+        Delete
+      </button>
+      <h3>
+        {selectedTask.title} {selectedTask.id}
+      </h3>
     </div>
   );
 };
