@@ -58,6 +58,23 @@ const DrfApiFetch = () => {
       })
       .then((res) => {
         setTasks([...tasks, res.data]);
+        setEditedTask({ id: "", title: "" });
+      });
+  };
+
+  const editTask = (task) => {
+    axios
+      .put(`http://127.0.0.1:8000/api/tasks/${task.id}/`, task, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token dc149fe76d0b9e793efc783e0ae463de760a59ab",
+        },
+      })
+      .then((res) => {
+        setTasks(
+          tasks.map((task) => (task.id === editedTask.id ? res.data : task))
+        );
+        setEditedTask({ id: "", title: "" });
       });
   };
 
@@ -75,6 +92,9 @@ const DrfApiFetch = () => {
             {task.title} {task.id}
             <button onClick={() => deleteTask(task.id)}>
               <i className="fa-solid fa-trash"></i>
+            </button>
+            <button onClick={() => setEditedTask(task)}>
+              <i className="fas fa-pen"></i>
             </button>
           </li>
         ))}
@@ -104,7 +124,11 @@ const DrfApiFetch = () => {
         placeholder="New Task"
         required
       />
-      <button onClick={() => newTask(editedTask)}>Create</button>
+      {editedTask.id ? (
+        <button onClick={() => editTask(editedTask)}>Update</button>
+      ) : (
+        <button onClick={() => newTask(editedTask)}>Create</button>
+      )}
     </div>
   );
 };
