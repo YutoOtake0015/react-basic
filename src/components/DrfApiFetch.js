@@ -4,6 +4,7 @@ import axios from "axios";
 const DrfApiFetch = () => {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState([]);
+  const [editedTask, setEditedTask] = useState({ id: "", title: "" });
   const [id, setId] = useState(1);
 
   useEffect(() => {
@@ -31,7 +32,6 @@ const DrfApiFetch = () => {
   };
 
   const deleteTask = (id) => {
-    console.log("通過1");
     axios
       .delete(`http://127.0.0.1:8000/api/tasks/${id}/`, {
         headers: {
@@ -41,9 +41,30 @@ const DrfApiFetch = () => {
       .then((res) => {
         setTasks(tasks.filter((task) => task.id !== id));
         setSelectedTask([]);
-        console.log("通過1");
       })
       .catch((err) => console.log(err));
+  };
+
+  const newTask = (task) => {
+    const data = {
+      title: task.title,
+    };
+    axios
+      .post(`http://127.0.0.1:8000/api/tasks/`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token dc149fe76d0b9e793efc783e0ae463de760a59ab",
+        },
+      })
+      .then((res) => {
+        setTasks([...tasks, res.data]);
+      });
+  };
+
+  const handleInputChange = (evt) => {
+    const value = evt.target.value;
+    const name = evt.target.name;
+    setEditedTask({ ...editedTask, [name]: value });
   };
 
   return (
@@ -75,6 +96,15 @@ const DrfApiFetch = () => {
       <h3>
         {selectedTask.title} {selectedTask.id}
       </h3>
+      <input
+        type="text"
+        name="title"
+        value={editedTask.title}
+        onChange={handleInputChange}
+        placeholder="New Task"
+        required
+      />
+      <button onClick={() => newTask(editedTask)}>Create</button>
     </div>
   );
 };
